@@ -1,0 +1,58 @@
+.auction-item {
+    display: flex;
+  margin: 20px;
+  padding: 10px;
+  border: 3px solid #f7931a;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.auction-item img {
+    max-width: 400px;
+    height: max-content;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  .auction-details {
+    flex-grow: 1;
+  }
+
+h2 {
+    color: #333;
+    margin-top: 0;
+}
+
+.artist {
+    color: #777;
+}
+
+.description {
+    margin-top: 50px;
+}
+
+.bid-info {
+    margin-top: 15px;
+    display: block;
+    justify-content: space-between;
+}
+
+.current-bid,
+.time-left {
+    color: #777;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #f7931a;
+}
+
