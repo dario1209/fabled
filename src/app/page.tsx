@@ -1,4 +1,4 @@
-
+import Link from 'next/link';
 
 
 
@@ -11,7 +11,7 @@ export default function Home() {
 
 <nav className="bg-white border-gray-200 dark:bg-gray-900">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-    <a href="https://twitter.com/fabledbtc" className="flex items-center space-x-3 rtl:space-x-reverse">
+    <a href="https://twitter.com/fabled_btc" className="flex items-center space-x-3 rtl:space-x-reverse">
         <img src="https://twitter.com/fabledbtc" className="h-8" alt="" />
         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"> XXVI
         </span>
@@ -55,7 +55,15 @@ export default function Home() {
       <div className="hero">
             <h1 className="animated-heading">fabled</h1>
             <p>incentivized experimental art factory on bitcoin</p>
-            <a href="#" className="btn">auctions</a>
+           
+
+<Link href="/auctions">
+    <button className="btn">Auctions</button>
+</Link>
+
+
+
+
       
       </div>
 
