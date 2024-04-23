@@ -1,0 +1,48 @@
+.q-login-button div button {
+  color: #111827 !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  font-weight: 500 !important;
+  border: none;
+  font-family: 'Anton', sans-serif !important;
+}
+
+.q-login-button div button div {
+  box-shadow: none !important;
+  color: #111827 !important;
+  background-color: transparent !important;
+  border: none !important;
+  font-family: 'Anton', sans-serif !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .q-login-button div button {
+    color: white !important;
+    border: none;
+    font-family: 'Anton', sans-serif !important;
+  }
+
+  .q-login-button div button div {
+    box-shadow: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    color: white !important;
+    font-family: 'Anton', sans-serif !important;
+  }
+}
+
+.q-login-button div button div {
+  font-weight: 500 !important;
+}
+
+nav a:hover {
+  transform: scale(1.025) !important;
+}
+
+.menu {
+  font-family: 'Anton', sans-serif;
+}
+
+button.hamburger-menu:focus {
+  --tw-ring-opacity: unset !important;
+}

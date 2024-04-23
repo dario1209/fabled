@@ -1,0 +1,31 @@
+.auctions-container {
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #FF8C00, #4169E1) !important;
+    color: #fff;
+}
+
+.auction-item {
+    border: 4px solid #ddd;
+}
+
+.bid-button {
+    background-color: #4169E1; /* Blue color */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.bid-button:hover {
+    background-color: #FF8C00; /* Orange color on hover */
+}
+
+.footer {
+    background-color: #4169E1; /* Blue footer */
+    padding: 20px;
+    text-align: center;
+}

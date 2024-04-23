@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +7,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --rk-font-family: 'Anton', sans-serif;
 }
 
 @media (prefers-color-scheme: white) {
@@ -17,6 +19,7 @@
 }
 
 body {
+  font-family: "Anton", sans-serif;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -24,6 +27,10 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+nav, button, h1, h2, p, link, footer {
+  font-family: 'Anton', sans-serif;
 }
 
 @layer utilities {
@@ -37,10 +44,15 @@ body {
   
 }
 .hero h1 {
-  font-size: 200px;
+  /* font-size: 200px; */
   color: #131313;
   text-shadow: 9px 5px 5px #f7931a;
-  
+}
+
+@media screen and (min-width: 672px) {
+  .hero h1 {
+    font-size: 200px;
+  }
 }
 .hero p {
   font-size: 20px;
@@ -59,11 +71,8 @@ body {
 .btn:hover {
   background-color: #f7931a;
 }
-/* Cool infinite background scrolling animation.
 
- */
-/* Exo thin font from Google. */
-@import url(https://fonts.googleapis.com/css?family=Anton);
+/* Cool infinite background scrolling animation.
 /* Background data (Original source: https://subtlepatterns.com/grid-me/) */
 /* Animations */
 @-webkit-keyframes bg-scrolling-reverse {
@@ -108,9 +117,8 @@ body {
 }
 /* Main styles */
 
-body {
+.home-page-style {
   color: #999;
-  font: 400 16px/1.5, Anton, sans-serif;
   text-align: center;
   /* img size is 50x50 */
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABnSURBVHja7M5RDYAwDEXRDgmvEocnlrQS2SwUFST9uEfBGWs9c97nbGtDcquqiKhOImLs/UpuzVzWEi1atGjRokWLFi1atGjRokWLFi1atGjRokWLFi1af7Ukz8xWp8z8AAAA//8DAJ4LoEAAlL1nAAAAAElFTkSuQmCC") repeat 0 0;
@@ -126,4 +134,9 @@ body {
   -moz-animation-timing-function: linear;
   -o-animation-timing-function: linear;
   animation-timing-function: linear;
+}
+
+.home-page button {
+  background-color: #4169E1;
+  border-radius: 3px;
 }
