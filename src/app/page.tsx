@@ -13,10 +13,10 @@ export default function Home() {
 
   return (
     <main className="home-page flex flex-col items-center justify-between p-24">
-      <div className="hero">
+      <div className="hero-a">
         <h1 className="text-8xl animated-heading">fabled</h1>
         <p>incentivized experimental art factory on bitcoin</p>
-        <Link href="/auctions">
+        <Link href="/01">
           <button className="btn-a">Auctions</button>
         </Link>
       </div>

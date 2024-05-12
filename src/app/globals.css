@@ -45,22 +45,22 @@ div {
     text-wrap: balance;
   }
 }
-.hero {
+.hero-a {
   text-align: center;
   padding: 5px 0;
 }
-.hero h1 {
+.hero-a h1 {
   /* font-size: 200px; */
   color: #131313;
   text-shadow: 9px 5px 5px #f7931a;
 }
 
 @media screen and (min-width: 672px) {
-  .hero h1 {
+  .hero-a h1 {
     font-size: 200px;
   }
 }
-.hero p {
+.hero-a p {
   font-size: 20px;
   color: #666;
   margin: 10px 0;
