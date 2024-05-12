@@ -1,16 +1,11 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import {
-  type BaseError,
-  useReadContract,
-  useWaitForTransactionReceipt,
-  useWriteContract,
-  useAccount,
-} from "wagmi";
+import { useReadContract } from "wagmi";
 import toast from "react-hot-toast";
 
 import abiAuction from "@/abi/EnglishAuction.json";
 import abiERC20 from "@/abi/ERC20.json";
 import { formatUnits, parseUnits } from "viem";
+import { readConfig } from "@/providers/readConfig";
 
 interface EnterBidAmountProps {
   itemContractAddress: `0x${string}`;
@@ -37,15 +32,15 @@ const EnterBidAmount = ({
     error: minBidError,
     isPending: minBidPending,
   } = useReadContract({
+    config: readConfig,
     ...itemContract,
     functionName: "getMinBid",
     args: [],
   });
 
-  console.log(minBid, minBidError, minBidPending);
+  // console.log(minBid, minBidError, minBidPending);
 
   useEffect(() => {
-    console.log("chang minBid");
     // @ts-ignore
     setMinBidState(minBid?.result as bigint);
   }, [minBid, setMinBidState]);

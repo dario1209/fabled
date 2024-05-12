@@ -1,81 +1,89 @@
-import { useEffect, useState } from 'react'
-import { 
+import { useEffect, useState } from "react";
+import {
   type BaseError,
   useReadContract,
-  useWaitForTransactionReceipt, 
-  useWriteContract, 
-  useAccount
-} from 'wagmi'
-import toast from 'react-hot-toast';
+  useWaitForTransactionReceipt,
+  useWriteContract,
+  useAccount,
+} from "wagmi";
+import toast from "react-hot-toast";
 
-import abiAuction from '@/abi/EnglishAuction.json'
-import abiERC20 from '@/abi/ERC20.json'
-import ApproveButton from './ApproveButton'
+import abiAuction from "@/abi/EnglishAuction.json";
+import abiERC20 from "@/abi/ERC20.json";
+import ApproveButton from "./ApproveButton";
+import SwitchNetworkButton from "./SwitchNetworkButton";
+import { readConfig } from "@/providers/readConfig";
 
 interface BidButtonProps {
-  minBid: bigint,
-  itemContractAddress: `0x${string}`,
-  erc20ContractAddress: `0x${string}`
+  minBid: bigint;
+  itemContractAddress: `0x${string}`;
+  erc20ContractAddress: `0x${string}`;
 }
 
-const BidButton = ({ minBid, itemContractAddress, erc20ContractAddress } : BidButtonProps) => {
-  const [needApprove, setNeedApprove] = useState(false)
-  const { address } = useAccount()
+const BidButton = ({
+  minBid,
+  itemContractAddress,
+  erc20ContractAddress,
+}: BidButtonProps) => {
+  const [needApprove, setNeedApprove] = useState(false);
+  const { address, chain } = useAccount();
 
+  const wrongChain = chain?.id !== 111;
 
   const itemContract = {
     address: itemContractAddress,
     abi: abiAuction,
-  } as const
+  } as const;
 
   const erc20Contract = {
     address: erc20ContractAddress,
     abi: abiERC20,
-  } as const
+  } as const;
 
-  const { 
+  const {
     data: allowance,
-    error: allowanceError, 
-    isPending: allowancePending 
+    error: allowanceError,
+    isPending: allowancePending,
   } = useReadContract({
+    config: readConfig,
     ...erc20Contract,
-    functionName: 'allowance',
+    functionName: "allowance",
     args: [address, itemContractAddress],
-  })
+  });
 
   useEffect(() => {
-    setNeedApprove((allowance as bigint) < minBid)
-  }, [allowance, minBid])
+    setNeedApprove((allowance as bigint) < minBid);
+  }, [allowance, minBid]);
 
-
-  const { 
+  const {
     data: hash,
-    error: bidError, 
-    isPending: isBidPending, 
-    writeContract 
-  } = useWriteContract() 
+    error: bidError,
+    isPending: isBidPending,
+    writeContract,
+  } = useWriteContract();
 
-  const { isLoading: isBidConfirming, isSuccess: isBidConfirmed } = 
-    useWaitForTransactionReceipt({ 
-      hash, 
-    })  
+  const { isLoading: isBidConfirming, isSuccess: isBidConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
 
   const handlePlaceBid = async () => {
     try {
       writeContract({
         ...itemContract,
-        functionName: 'bid',
-        args: [
-          address,
-          minBid
-        ],
-      })
+        functionName: "bid",
+        args: [address, minBid],
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
+  };
+
+  if (wrongChain) {
+    return <SwitchNetworkButton />;
   }
-  
-  return(
+
+  return (
     <>
       {needApprove ? (
         <ApproveButton
@@ -84,20 +92,23 @@ const BidButton = ({ minBid, itemContractAddress, erc20ContractAddress } : BidBu
           erc20ContractAddress={erc20ContractAddress}
           setNeedApprove={setNeedApprove}
         />
-      ):(
-        isBidConfirming || allowancePending ? (
-          <button disabled className="bid-button">Loading...</button>
-        ) : (
-          <button onClick={handlePlaceBid} className="bid-button">Place Bid</button>
-        )
+      ) : isBidConfirming || allowancePending ? (
+        <button disabled className="bid-button">
+          Loading...
+        </button>
+      ) : (
+        <button onClick={handlePlaceBid} className="bid-button">
+          Place Bid
+        </button>
       )}
-      {hash && <p className='break-words text-sm'>Transaction Hash: {hash}</p>}
-      {bidError && ( 
-        <p className='break-words text-sm'>Error: {(bidError as BaseError).shortMessage || bidError.message}</p> 
-      )} 
+      {hash && <p className="break-words text-sm">Transaction Hash: {hash}</p>}
+      {bidError && (
+        <p className="break-words text-sm">
+          Error: {(bidError as BaseError).shortMessage || bidError.message}
+        </p>
+      )}
     </>
-  )
+  );
+};
 
-}
-
-export default BidButton
+export default BidButton;

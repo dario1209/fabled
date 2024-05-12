@@ -1,21 +1,13 @@
 import Image from "next/image";
-import {
-  type BaseError,
-  useReadContracts,
-  useWaitForTransactionReceipt,
-  useWriteContract,
-  useAccount,
-  useWatchContractEvent,
-  type UseReadContractsReturnType,
-} from "wagmi";
+import { useAccount, useReadContracts, useWatchContractEvent } from "wagmi";
 import abi from "@/abi/EnglishAuction.json";
 import { formatDuration } from "@/utils/formatDuration";
 import BidButton from "./BidButton";
-// import useFetchDecimals from "@/hooks/useErc20Decimals";
 import { formatUnits, parseUnits } from "viem";
-import { useEffect, useState } from "react";
-// import { publicClient } from "@/providers/client";
+import { useState } from "react";
 import EnterBidAmount from "./EnterBidAmount";
+import { readConfig } from "@/providers/readConfig";
+import ConnectButton from "./ConnectButton";
 
 export interface AuctionItem {
   id: string;
@@ -33,15 +25,15 @@ interface AuctionItemCardProps {
 }
 
 const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
-  const { address } = useAccount();
-
   const [currentBid, setCurrentBid] = useState();
   const [minBidState, setMinBidState] = useState();
+
+  const { isConnected } = useAccount();
 
   const [bidAmount, setBidAmount] = useState<string>("");
 
   const itemContract = {
-    address: `0x${item.contractAddress}`,
+    address: item.contractAddress as `0x${string}`,
     abi,
   } as const;
 
@@ -50,6 +42,7 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
     error: readError,
     isPending: readPending,
   } = useReadContracts({
+    config: readConfig,
     contracts: [
       {
         ...itemContract,
@@ -82,7 +75,8 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
     data || [];
 
   useWatchContractEvent({
-    address: `0x${item.contractAddress}`,
+    config: readConfig,
+    address: item.contractAddress as `0x${string}`,
     abi,
     eventName: "NewBid",
     onLogs(logs) {
@@ -92,11 +86,7 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
     },
   });
 
-  console.log(readPending, { minBid, remainingBidTime, erc20Address }, address);
-
   if (readPending) return <p>Loading...</p>;
-
-  console.log(bidAmount);
 
   return (
     <div className="auction-item flex flex-col w-full md:flex-row overflow-hidden my-5 dark:text-white text-gray-900">
@@ -127,10 +117,10 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
           </div>
         </a>
       </div>
-      <div className="w-full md:w-1/2 px-4 flex flex-col">
-        <h2 className="text-2xl md:text-3xl text-center">{item.title}</h2>
-        <p className="text-center text-sm">{item.artist}</p>
-        <p className="flex-1 text-center my-5">{item.description}</p>
+      <div className="w-full md:w-1/2 px-4 flex flex-col max-w-md mx-auto">
+        <h2 className="text-2xl md:text-3xl text-left">{item.title}</h2>
+        <p className="text-left text-sm">{item.artist}</p>
+        <p className="flex-1 text-left my-5">{item.description}</p>
         {(expiresAt?.result as number) > new Date().getTime() && (
           <p>Winner: {(highestBidder?.result as string) || "N/A"}</p>
         )}
@@ -156,18 +146,21 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
           </p>
         </div>
         <EnterBidAmount
-          itemContractAddress={`0x${item.contractAddress}`}
+          itemContractAddress={item.contractAddress as `0x${string}`}
           currentBid={currentBid}
           setMinBidState={setMinBidState}
           bidAmount={bidAmount}
           setBidAmount={setBidAmount}
         />
-        {/* <button onClick={handlePlaceBid} className="bid-button">Place Bid</button> */}
-        <BidButton
-          minBid={parseUnits(bidAmount, 8)}
-          itemContractAddress={`0x${item.contractAddress}`}
-          erc20ContractAddress={erc20Address?.result as `0x${string}`}
-        />
+        {isConnected ? (
+          <BidButton
+            minBid={parseUnits(bidAmount, 8)}
+            itemContractAddress={item.contractAddress as `0x${string}`}
+            erc20ContractAddress={erc20Address?.result as `0x${string}`}
+          />
+        ) : (
+          <ConnectButton />
+        )}
       </div>
     </div>
   );
