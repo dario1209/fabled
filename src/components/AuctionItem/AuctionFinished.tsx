@@ -1,29 +1,22 @@
 import React, { useState } from "react";
 import { formatUnits, parseUnits } from "viem";
-import { formatDuration } from "@/utils/formatDuration";
-import EnterBidAmount from "./EnterBidAmount";
-import BidButton from "./BidButton";
 import ConnectButton from "./ConnectButton";
-import { useAccount, useReadContracts, useWatchContractEvent } from "wagmi";
+import { useAccount, useReadContracts } from "wagmi";
 import { readConfig } from "@/providers/readConfig";
 import abi from "@/abi/EnglishAuction.json";
 import toast from "react-hot-toast";
 import { useCopyToClipboard } from "react-use";
+import UnsuccessfulBid from "./UnsuccessfullBid";
 
-interface AuctionRunningProps {
+interface AuctionFinishedProps {
   itemContractAddress: `0x${string}`;
 }
 
-const AuctionRunning: React.FC<AuctionRunningProps> = ({
+const AuctionFinished: React.FC<AuctionFinishedProps> = ({
   itemContractAddress,
 }) => {
-  const [currentBid, setCurrentBid] = useState();
-  const [minBidState, setMinBidState] = useState();
-
-  const { isConnected } = useAccount();
-  const [state, copyToClipboard] = useCopyToClipboard();
-
-  const [bidAmount, setBidAmount] = useState<string>("");
+  const { address } = useAccount();
+  const [, copyToClipboard] = useCopyToClipboard();
   const itemContract = {
     address: itemContractAddress,
     abi,
@@ -41,6 +34,11 @@ const AuctionRunning: React.FC<AuctionRunningProps> = ({
         functionName: "highestBidder",
         args: [],
       },
+      {
+        ...itemContract,
+        functionName: "bids",
+        args: [address],
+      },
     ],
   });
   const [winner] = data || [];
@@ -52,6 +50,8 @@ const AuctionRunning: React.FC<AuctionRunningProps> = ({
     0,
     6
   )}...${winnerAddress.substring(winnerAddress.length - 4)}`;
+
+  const isWinner = winnerAddress === address;
 
   const handleCopyAddress = () => {
     copyToClipboard(winnerAddress);
@@ -65,19 +65,21 @@ const AuctionRunning: React.FC<AuctionRunningProps> = ({
           Winner: {winnerFormatted}
         </p>
       </div>
-
-      {isConnected ? (
-        <p>here will be some button...</p>
-      ) : (
-        // <BidButton
-        //   minBid={parseUnits(bidAmount, 8)}
-        //   itemContractAddress={itemContractAddress as `0x${string}`}
-        //   erc20ContractAddress={erc20Address?.result as `0x${string}`}
-        // />
-        <ConnectButton />
+      {address && isWinner && <p>You are winner!</p>}
+      {address && !isWinner && (
+        <UnsuccessfulBid
+          itemContractAddress={itemContractAddress as `0x${string}`}
+          userAddress={address as `0x${string}`}
+        />
       )}
+
+      {/* {isConnected ? (
+        <p>here will be some button for winner??...</p>
+      ) : (
+        <ConnectButton />
+      )} */}
     </>
   );
 };
 
-export default AuctionRunning;
+export default AuctionFinished;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
 import { formatDuration } from "@/utils/formatDuration";
 import EnterBidAmount from "./EnterBidAmount";
@@ -30,6 +30,7 @@ const AuctionRunning: React.FC<AuctionRunningProps> = ({
     data,
     error: readError,
     isPending: readPending,
+    refetch,
   } = useReadContracts({
     config: readConfig,
     contracts: [
@@ -52,13 +53,20 @@ const AuctionRunning: React.FC<AuctionRunningProps> = ({
   });
   const [minBid, remainingBidTime, erc20Address] = data || [];
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      refetch();
+    }, 10000);
+    return () => clearInterval(intervalId);
+  }, [refetch]);
+
   useWatchContractEvent({
     config: readConfig,
     address: itemContractAddress,
     abi,
     eventName: "NewBid",
     onLogs(logs) {
-      console.log(logs);
+      // console.log(logs);
       // @ts-ignore
       setCurrentBid(logs[0].args.amount);
     },
