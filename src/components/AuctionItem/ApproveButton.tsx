@@ -3,7 +3,6 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
   useAccount,
-  useSwitchChain,
 } from "wagmi";
 
 import abiERC20 from "@/abi/ERC20.json";
@@ -29,8 +28,7 @@ const ApproveButton = ({
 
   const { data: hash, error, isPending, writeContract } = useWriteContract();
 
-  const { address, chain } = useAccount();
-  console.log(address, " adddress");
+  const { chain } = useAccount();
 
   const wrongChain = chain?.id !== 111;
 

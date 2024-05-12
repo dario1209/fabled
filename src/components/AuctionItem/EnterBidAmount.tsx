@@ -45,8 +45,6 @@ const EnterBidAmount = ({
     setMinBidState(minBid?.result as bigint);
   }, [minBid, setMinBidState]);
 
-  console.log(minBid);
-
   if (!minBid) return null;
 
   return (
