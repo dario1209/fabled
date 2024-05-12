@@ -8,6 +8,7 @@ import { useState } from "react";
 import EnterBidAmount from "./EnterBidAmount";
 import { readConfig } from "@/providers/readConfig";
 import ConnectButton from "./ConnectButton";
+import GoToButtons from "./GoToButtons";
 
 export interface AuctionItem {
   id: string;
@@ -66,13 +67,24 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
       },
       {
         ...itemContract,
+        functionName: "startAt",
+        args: [],
+      },
+      {
+        ...itemContract,
         functionName: "highestBidder",
         args: [],
       },
     ],
   });
-  const [minBid, remainingBidTime, erc20Address, expiresAt, highestBidder] =
-    data || [];
+  const [
+    minBid,
+    remainingBidTime,
+    erc20Address,
+    expiresAt,
+    startAt,
+    highestBidder,
+  ] = data || [];
 
   useWatchContractEvent({
     config: readConfig,
@@ -87,7 +99,13 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
   });
 
   if (readPending) return <p>Loading...</p>;
-
+  const dateInfo =
+    startAt && typeof startAt.result === "bigint"
+      ? new Date(Number(startAt.result) * 1000).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+        })
+      : "";
   return (
     <div className="auction-item flex flex-col w-full md:flex-row overflow-hidden my-5 dark:text-white text-gray-900">
       <div className="w-full md:w-1/2 flex flex-row items-center justify-center">
@@ -118,6 +136,10 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
         </a>
       </div>
       <div className="w-full md:w-1/2 px-4 flex flex-col max-w-md mx-auto">
+        <div className="flex flex-row items-center mb-3 gap-4">
+          <GoToButtons currenItemId={item.id} />
+          {dateInfo}
+        </div>
         <h2 className="text-2xl md:text-3xl text-left">{item.title}</h2>
         <p className="text-left text-sm">{item.artist}</p>
         <p className="flex-1 text-left my-5">{item.description}</p>

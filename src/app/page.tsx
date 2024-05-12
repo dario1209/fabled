@@ -1,13 +1,13 @@
-'use client'
+"use client";
 import { useEffect } from "react";
 import Link from "next/link";
 
 export default function Home() {
   useEffect(() => {
-    document.body.classList.add('home-page-style');
+    document.body.classList.add("home-page-style");
 
     return () => {
-      document.body.classList.remove('home-page-style');
+      document.body.classList.remove("home-page-style");
     };
   }, []);
 
@@ -17,7 +17,7 @@ export default function Home() {
         <h1 className="text-8xl animated-heading">fabled</h1>
         <p>incentivized experimental art factory on bitcoin</p>
         <Link href="/auctions">
-          <button className="btn">Auctions</button>
+          <button className="btn-a">Auctions</button>
         </Link>
       </div>
     </main>

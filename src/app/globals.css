@@ -35,7 +35,8 @@ h1,
 h2,
 p,
 link,
-footer {
+footer,
+div {
   font-family: "Anton", sans-serif;
 }
 
@@ -64,7 +65,7 @@ footer {
   color: #666;
   margin: 10px 0;
 }
-.btn {
+.btn-a {
   display: inline-block;
   padding: 12px 24px;
   background-color: #777777;
@@ -73,7 +74,7 @@ footer {
   font-weight: bold;
   border-radius: 8px;
 }
-.btn:hover {
+.btn-a:hover {
   background-color: #f7931a;
 }
 
