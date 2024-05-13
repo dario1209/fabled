@@ -92,13 +92,15 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
         </a>
       </div>
       <div className="w-full md:w-1/2 px-4 flex flex-col max-w-md mx-auto">
-        <div className="flex flex-row items-center mb-3 gap-4">
+        <div className="flex flex-row items-center mb-3 gap-4 text-gray-900">
           <GoToButtons currenItemId={item.id} />
           {dateInfo}
         </div>
-        <h2 className="text-2xl md:text-3xl text-left mb-5">{item.title}</h2>
-        <p className="text-left text-sm my-0">{item.artist}</p>
-        <p className="text-left my-0">{item.description}</p>
+        <h2 className="text-2xl md:text-3xl text-left mb-5 text-gray-900">
+          {item.title}
+        </h2>
+        <p className="text-left text-sm my-0 text-gray-900">{item.artist}</p>
+        <p className="text-left my-0 text-gray-900">{item.description}</p>
         <a
           href={item.url}
           target="_blank"

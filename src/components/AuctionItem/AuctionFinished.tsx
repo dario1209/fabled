@@ -65,7 +65,7 @@ const AuctionFinished: React.FC<AuctionFinishedProps> = ({
 
   return (
     <>
-      <div className="mb-3 flex flex-row flex-wrap justify-between">
+      <div className="mb-3 flex flex-row flex-wrap justify-between text-gray-900">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={puppetImgSrc}
@@ -75,7 +75,7 @@ const AuctionFinished: React.FC<AuctionFinishedProps> = ({
           width={24}
         />
         <p
-          className="flex-1 text-left"
+          className="flex-1 text-left text-gray-900"
           onClick={handleCopyAddress}
           style={{ cursor: "pointer" }}
         >

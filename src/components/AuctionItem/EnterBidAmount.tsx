@@ -79,7 +79,7 @@ const Input = ({ minBid, bidAmount, setBidAmount }: InputProps) => {
       type="number"
       name="bidAmount"
       id="bidAmount"
-      className="my-3 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      className="my-3 shadow appearance-none border bg-white rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       // @ts-ignore
       value={Number(bidAmount)}
       onChange={handleChange}

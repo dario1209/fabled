@@ -87,7 +87,7 @@ const UnsuccessfulBid: React.FC<UnsuccessfulBidProps> = ({
     <>
       {isConnected ? (
         <>
-          <p className="text-left my-3">
+          <p className="text-left my-3 text-gray-900">
             You have {formatUnits(300000n, 8)} to withdraw
           </p>
           <button onClick={handleClick} className="bid-button">

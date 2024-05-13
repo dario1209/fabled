@@ -97,13 +97,17 @@ const BidButton = ({
           Loading...
         </button>
       ) : (
-        <button onClick={handlePlaceBid} className="bid-button">
+        <button onClick={handlePlaceBid} className="bid-button text-gray-900">
           Place Bid
         </button>
       )}
-      {hash && <p className="break-words text-sm">Transaction Hash: {hash}</p>}
+      {hash && (
+        <p className="break-words text-sm text-gray-900">
+          Transaction Hash: {hash}
+        </p>
+      )}
       {bidError && (
-        <p className="break-words text-sm">
+        <p className="break-words text-sm text-gray-900">
           Error: {(bidError as BaseError).shortMessage || bidError.message}
         </p>
       )}

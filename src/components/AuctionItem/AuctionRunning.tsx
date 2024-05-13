@@ -86,13 +86,13 @@ const AuctionRunning: React.FC<AuctionRunningProps> = ({
 
   return (
     <>
-      <p className="text-right my-3">
+      <p className="text-right my-3 text-gray-900">
         Time Left:{" "}
         {remainingBidTime?.result
           ? formatDuration(remainingBidTime.result as bigint)
           : "N/A"}
       </p>
-      <div className="mb-3 flex flex-row flex-wrap justify-between">
+      <div className="mb-3 flex flex-row flex-wrap justify-between text-gray-900">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={puppetImgSrc}
@@ -101,7 +101,7 @@ const AuctionRunning: React.FC<AuctionRunningProps> = ({
           height={24}
           width={24}
         />
-        <p className="flex-1 text-left">
+        <p className="flex-1 text-left text-gray-900">
           {winnerFormatted}
           {winnerAddress === address ? " (You)" : ""}
         </p>
