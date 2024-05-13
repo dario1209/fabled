@@ -15,6 +15,7 @@ export interface AuctionItem {
   imgSrc: string;
   url: string;
   contractAddress: string;
+  puppetImgSrc: string;
 }
 
 interface AuctionItemCardProps {
@@ -79,7 +80,7 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
             <Image
               priority
               className="relative"
-              src="/P-is-for-Puppet.png"
+              src={item.imgSrc}
               sizes="300px"
               style={{
                 objectFit: "contain",

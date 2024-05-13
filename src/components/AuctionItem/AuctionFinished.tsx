@@ -7,6 +7,8 @@ import abi from "@/abi/EnglishAuction.json";
 import toast from "react-hot-toast";
 import { useCopyToClipboard } from "react-use";
 import UnsuccessfulBid from "./UnsuccessfullBid";
+import HighestBid from "./HighestBid";
+import useAuctionItems from "@/hooks/useAuctionItems";
 
 interface AuctionFinishedProps {
   itemContractAddress: `0x${string}`;
@@ -43,6 +45,9 @@ const AuctionFinished: React.FC<AuctionFinishedProps> = ({
   });
   const [winner] = data || [];
 
+  const { getPuppetImgSrc } = useAuctionItems();
+  const puppetImgSrc = getPuppetImgSrc(itemContractAddress);
+
   if (readPending) return <p>Loading...</p>;
 
   const winnerAddress = winner?.result as `0x${string}`;
@@ -61,23 +66,36 @@ const AuctionFinished: React.FC<AuctionFinishedProps> = ({
   return (
     <>
       <div className="mb-3 flex flex-row flex-wrap justify-between">
-        <p onClick={handleCopyAddress} style={{ cursor: "pointer" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={puppetImgSrc}
+          alt="puppet"
+          className="mr-3"
+          height={24}
+          width={24}
+        />
+        <p
+          className="flex-1 text-left"
+          onClick={handleCopyAddress}
+          style={{ cursor: "pointer" }}
+        >
           Winner: {winnerFormatted}
         </p>
+        <p>
+          Winner bid:{" "}
+          <HighestBid
+            highestBidder={winnerAddress}
+            itemContractAddress={itemContractAddress as `0x${string}`}
+          />
+        </p>
       </div>
-      {address && isWinner && <p>You are winner!</p>}
+      {address && isWinner && <p>You are the winner!</p>}
       {address && !isWinner && (
         <UnsuccessfulBid
           itemContractAddress={itemContractAddress as `0x${string}`}
           userAddress={address as `0x${string}`}
         />
       )}
-
-      {/* {isConnected ? (
-        <p>here will be some button for winner??...</p>
-      ) : (
-        <ConnectButton />
-      )} */}
     </>
   );
 };

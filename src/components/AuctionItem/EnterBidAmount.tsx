@@ -9,7 +9,6 @@ import { readConfig } from "@/providers/readConfig";
 
 interface EnterBidAmountProps {
   itemContractAddress: `0x${string}`;
-  currentBid: bigint | undefined;
   setMinBidState: Dispatch<SetStateAction<undefined>>;
   bidAmount: string;
   setBidAmount: Dispatch<SetStateAction<string>>;
@@ -17,7 +16,6 @@ interface EnterBidAmountProps {
 
 const EnterBidAmount = ({
   itemContractAddress,
-  currentBid,
   setMinBidState,
   bidAmount,
   setBidAmount,

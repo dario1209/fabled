@@ -7,6 +7,8 @@ import ConnectButton from "./ConnectButton";
 import { useAccount, useReadContracts, useWatchContractEvent } from "wagmi";
 import { readConfig } from "@/providers/readConfig";
 import abi from "@/abi/EnglishAuction.json";
+import HighestBid from "./HighestBid";
+import useAuctionItems from "@/hooks/useAuctionItems";
 
 interface AuctionRunningProps {
   itemContractAddress: `0x${string}`;
@@ -15,16 +17,18 @@ interface AuctionRunningProps {
 const AuctionRunning: React.FC<AuctionRunningProps> = ({
   itemContractAddress,
 }) => {
-  const [currentBid, setCurrentBid] = useState();
   const [minBidState, setMinBidState] = useState();
 
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
 
   const [bidAmount, setBidAmount] = useState<string>("");
   const itemContract = {
     address: itemContractAddress,
     abi,
   } as const;
+
+  const { getPuppetImgSrc } = useAuctionItems();
+  const puppetImgSrc = getPuppetImgSrc(itemContractAddress);
 
   const {
     data,
@@ -36,7 +40,7 @@ const AuctionRunning: React.FC<AuctionRunningProps> = ({
     contracts: [
       {
         ...itemContract,
-        functionName: "getMinBid",
+        functionName: "highestBidder",
         args: [],
       },
       {
@@ -51,7 +55,7 @@ const AuctionRunning: React.FC<AuctionRunningProps> = ({
       },
     ],
   });
-  const [minBid, remainingBidTime, erc20Address] = data || [];
+  const [highestBidder, remainingBidTime, erc20Address] = data || [];
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -68,33 +72,48 @@ const AuctionRunning: React.FC<AuctionRunningProps> = ({
     onLogs(logs) {
       // console.log(logs);
       // @ts-ignore
-      setCurrentBid(logs[0].args.amount);
+      refetch();
     },
   });
 
   if (readPending) return <p>Loading...</p>;
 
+  const winnerAddress = highestBidder?.result as `0x${string}`;
+  const winnerFormatted = `${winnerAddress.substring(
+    0,
+    6
+  )}...${winnerAddress.substring(winnerAddress.length - 4)}`;
+
   return (
     <>
+      <p className="text-right my-3">
+        Time Left:{" "}
+        {remainingBidTime?.result
+          ? formatDuration(remainingBidTime.result as bigint)
+          : "N/A"}
+      </p>
       <div className="mb-3 flex flex-row flex-wrap justify-between">
-        {currentBid ? (
-          <p>Current Bid: {formatUnits(currentBid, 8)}</p>
-        ) : (
-          <p>
-            Min Bid:{" "}
-            {minBid?.result ? formatUnits(minBid.result as bigint, 8) : "N/A"}
-          </p>
-        )}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={puppetImgSrc}
+          alt="puppet"
+          className="mr-3"
+          height={24}
+          width={24}
+        />
+        <p className="flex-1 text-left">
+          {winnerFormatted}
+          {winnerAddress === address ? " (You)" : ""}
+        </p>
         <p>
-          Time Left:{" "}
-          {remainingBidTime?.result
-            ? formatDuration(remainingBidTime.result as bigint)
-            : "N/A"}
+          <HighestBid
+            highestBidder={highestBidder?.result as `0x${string}`}
+            itemContractAddress={itemContractAddress as `0x${string}`}
+          />
         </p>
       </div>
       <EnterBidAmount
         itemContractAddress={itemContractAddress as `0x${string}`}
-        currentBid={currentBid}
         setMinBidState={setMinBidState}
         bidAmount={bidAmount}
         setBidAmount={setBidAmount}
