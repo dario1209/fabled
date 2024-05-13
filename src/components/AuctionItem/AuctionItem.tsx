@@ -96,9 +96,18 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
           <GoToButtons currenItemId={item.id} />
           {dateInfo}
         </div>
-        <h2 className="text-2xl md:text-3xl text-left">{item.title}</h2>
-        <p className="text-left text-sm">{item.artist}</p>
-        <p className="flex-1 text-left my-5">{item.description}</p>
+        <h2 className="text-2xl md:text-3xl text-left mb-5">{item.title}</h2>
+        <p className="text-left text-sm my-0">{item.artist}</p>
+        <p className="text-left my-0">{item.description}</p>
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-left text-sm my-5 text-gray-500"
+        >
+          {item.url}
+        </a>
+        <p className="flex-1"></p>
         {auctionState === "running" && (
           <AuctionRunning
             itemContractAddress={item.contractAddress as `0x${string}`}
