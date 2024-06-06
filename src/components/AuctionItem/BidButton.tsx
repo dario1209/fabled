@@ -93,7 +93,7 @@ const BidButton = ({
           setNeedApprove={setNeedApprove}
         />
       ) : isBidConfirming || allowancePending ? (
-        <button enabled className="bid-button">
+        <button disabled className="bid-button">
           Loading...
         </button>
       ) : (
