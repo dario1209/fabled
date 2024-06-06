@@ -23,16 +23,16 @@ const useAuctionItems = () => {
       contractAddress: "0xaf34cbB430a8914B4BA989188C4C46599a40A46E",
       puppetImgSrc: "/him.png",
     },
-
-    // {
-    //   id: "03",
-    //   url: "https://www.ord.io/61011180",
-    //   imgSrc: "/P-is-for-Puppet.png",
-    //   title: "P is for Puppet - 2",
-    //   artist: "the tinies",
-    //   description: "Genesis/Chapter One - 2",
-    //   contractAddress: "0xaf34cbB430a8914B4BA989188C4C46599a40A46E",
-    // },
+    {
+      id: "03",
+      url: "https://www.ord.io/61011180",
+      imgSrc: "/P-is-for-Puppet.png",
+      title: "P is for Puppet",
+      artist: "the tinies",
+      description: "Genesis/Chapter One",
+      contractAddress: "0x9344F0b0A10B1B8c7E10900C1C758a4D05B03Db2",
+      puppetImgSrc: "/him.png",
+    },
   ];
 
   const getPuppetImgSrc = (contractAddress: string) => {

@@ -1,25 +1,15 @@
 "use client";
 import { useEffect } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   useEffect(() => {
-    document.body.classList.add("home-page-style");
+    if (router) {
+      router.replace("/03");
+    }
+  }, [router]);
 
-    return () => {
-      document.body.classList.remove("home-page-style");
-    };
-  }, []);
-
-  return (
-    <main className="home-page flex flex-col items-center justify-between p-24">
-      <div className="hero-a">
-        <h1 className="text-8xl animated-heading">fabled</h1>
-        <p>incentivized experimental art factory on bitcoin</p>
-        <Link href="/01">
-          <button className="btn-a">Auctions</button>
-        </Link>
-      </div>
-    </main>
-  );
+  return null;
 }
