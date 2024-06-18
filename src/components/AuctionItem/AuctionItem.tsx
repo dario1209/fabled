@@ -91,7 +91,7 @@ const AuctionItemCard = ({ item }: AuctionItemCardProps) => {
           </div>
         </a>
       </div>
-      <div className="w-full md:w-1/2 px-4 flex flex-col max-w-md mx-auto">
+      <div className="w-full md:w-1/2 py-4 px-4 flex flex-col max-w-md mx-auto">
         <div className="flex flex-row items-center mb-3 gap-4 text-gray-900">
           <GoToButtons currenItemId={item.id} />
           {dateInfo}
